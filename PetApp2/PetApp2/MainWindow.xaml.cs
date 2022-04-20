@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,32 @@ namespace PetApp2
         public MainWindow()
         {
             InitializeComponent();
+
+            foreach (UIElement el in MainRoot.Children)
+            {
+                if (el is Button)
+                {
+                    ((Button)el).Click += Button_Click;
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string str = (string)((Button)e.OriginalSource).Content;
+
+            if (str == "AC")
+                TextLabel.Text = "";
+            else if(str == "=")
+            {
+                string value = new DataTable().Compute(TextLabel.Text, null).ToString();
+                TextLabel.Text = value;
+            }
+            else
+                TextLabel.Text += str;
+            
+
+
         }
     }
 }
